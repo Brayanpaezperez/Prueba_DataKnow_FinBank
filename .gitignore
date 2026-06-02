@@ -1,0 +1,17 @@
+# Entornos virtuales
+env/
+__pycache__/
+
+# Datos generados 
+output/
+
+# Archivos de Terraform 
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+*.pem
+
+# Archivos de SO
+.DS_Store
+Thumbs.db
