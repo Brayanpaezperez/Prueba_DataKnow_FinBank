@@ -206,4 +206,4 @@ if __name__ == "__main__":
         df.to_parquet(os.path.join(dir_parquet, f'{name}.parquet'), index=False)
         print(f"Generada tabla {name} - Shape: {df.shape}")
         
-    print("🚀 Proceso completado exitosamente.")
+    print("Proceso completado exitosamente.")

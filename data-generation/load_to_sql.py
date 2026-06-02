@@ -31,7 +31,7 @@ if __name__ == "__main__":
         
         # Insertar en SQL (Reemplaza la tabla si ya existe)
         df.to_sql(tabla, con=engine, index=False, if_exists='replace')
-        print(f"✅ {tabla} cargada exitosamente.")
+        print(f"{tabla} cargada exitosamente.")
 
     print("\n--- EVIDENCIA DE CARGA (SELECT COUNT(*)) ---")
     
@@ -42,4 +42,4 @@ if __name__ == "__main__":
             result = conn.execute(query).scalar()
             print(f"Tabla: {tabla.ljust(20)} | Registros insertados: {result}")
             
-    print("\n🚀 Fase 1 completada al 100%.")
+    print("Fase 1 completada")
