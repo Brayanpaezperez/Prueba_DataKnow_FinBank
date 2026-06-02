@@ -1,0 +1,156 @@
+{
+  "name": "Job_Finbank",
+  "email_notifications": {
+    "no_alert_for_skipped_runs": false
+  },
+  "webhook_notifications": {},
+  "timeout_seconds": 0,
+  "schedule": {
+    "quartz_cron_expression": "25 36 2 * * ?",
+    "timezone_id": "America/Bogota",
+    "pause_status": "UNPAUSED"
+  },
+  "max_concurrent_runs": 1,
+  "tasks": [
+    {
+      "task_key": "Bronze",
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/brayanpaez@hotmail.es/PL_00_Source_to_Bronze",
+        "base_parameters": {
+          "batch_id": "{{job.run_id}}"
+        },
+        "source": "WORKSPACE"
+      },
+      "existing_cluster_id": "0602-155055-6tyx5j1e",
+      "max_retries": 3,
+      "min_retry_interval_millis": 600000,
+      "retry_on_timeout": false,
+      "timeout_seconds": 1800,
+      "health": {
+        "rules": [
+          {
+            "metric": "RUN_DURATION_SECONDS",
+            "op": "GREATER_THAN",
+            "value": 1200
+          }
+        ]
+      },
+      "email_notifications": {
+        "on_failure": [
+          "brayanpaez@hotmail.es"
+        ]
+      },
+      "notification_settings": {
+        "no_alert_for_skipped_runs": true,
+        "no_alert_for_canceled_runs": true,
+        "alert_on_last_attempt": true
+      },
+      "webhook_notifications": {},
+      "disabled": false
+    },
+    {
+      "task_key": "Silver",
+      "depends_on": [
+        {
+          "task_key": "Bronze"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/brayanpaez@hotmail.es/PL_01_Bronze_to_Silver",
+        "source": "WORKSPACE"
+      },
+      "existing_cluster_id": "0602-155055-6tyx5j1e",
+      "max_retries": 3,
+      "min_retry_interval_millis": 600000,
+      "retry_on_timeout": false,
+      "timeout_seconds": 1800,
+      "health": {
+        "rules": [
+          {
+            "metric": "RUN_DURATION_SECONDS",
+            "op": "GREATER_THAN",
+            "value": 1200
+          }
+        ]
+      },
+      "email_notifications": {
+        "on_failure": [
+          "brayanpaez@hotmail.es"
+        ]
+      },
+      "notification_settings": {
+        "no_alert_for_skipped_runs": true,
+        "no_alert_for_canceled_runs": true,
+        "alert_on_last_attempt": true
+      },
+      "webhook_notifications": {},
+      "disabled": false
+    },
+    {
+      "task_key": "Gold",
+      "depends_on": [
+        {
+          "task_key": "Silver"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/brayanpaez@hotmail.es/PL_02_Silver_to_Gold",
+        "source": "WORKSPACE"
+      },
+      "existing_cluster_id": "0602-155055-6tyx5j1e",
+      "max_retries": 3,
+      "min_retry_interval_millis": 600000,
+      "retry_on_timeout": false,
+      "timeout_seconds": 1800,
+      "health": {
+        "rules": [
+          {
+            "metric": "RUN_DURATION_SECONDS",
+            "op": "GREATER_THAN",
+            "value": 1200
+          }
+        ]
+      },
+      "email_notifications": {
+        "on_start": [
+          "brayanpaez@hotmail.es"
+        ],
+        "on_failure": [
+          "brayanpaez@hotmail.es"
+        ]
+      },
+      "notification_settings": {
+        "no_alert_for_skipped_runs": true,
+        "no_alert_for_canceled_runs": true,
+        "alert_on_last_attempt": true
+      },
+      "webhook_notifications": {},
+      "disabled": false
+    },
+    {
+      "task_key": "Reporte_Final",
+      "depends_on": [
+        {
+          "task_key": "Gold"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/brayanpaez@hotmail.es/PL_03_Reporte_Final",
+        "source": "WORKSPACE"
+      },
+      "existing_cluster_id": "0602-155055-6tyx5j1e",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {},
+      "disabled": false
+    }
+  ],
+  "queue": {
+    "enabled": true
+  },
+  "performance_target": "PERFORMANCE_OPTIMIZED"
+}
